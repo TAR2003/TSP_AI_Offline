@@ -77,13 +77,15 @@ public class Main {
         }
         System.out.println();
         System.out.println(countCost(cities, matrix, roundTrip));
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                System.out.print(matrix.get(i).get(j) + " ");
-            }
-            System.out.println();
-
-        }
+//        for (int i = 0; i < size; i++) {
+//            for (int j = 0; j < size; j++) {
+//                System.out.print(matrix.get(i).get(j) + " ");
+//            }
+//            System.out.println();
+//
+//        }
+        TSPwithShortEdgesFirst tsPwithShortEdgesFirst = new TSPwithShortEdgesFirst(cities, matrix);
+        tsPwithShortEdgesFirst.getNearestNeighbour();
         // it is the matrix where we will store all of the distances
 
 
@@ -96,10 +98,17 @@ public class Main {
             distance += matrix.get(roundTrip.get(i)).get(roundTrip.get(i+1));
             System.out.println("Distance in " + i + " =  " + distance);
         }
-        System.out.println("Distance in after  " + " =  " + distance);
-        System.out.println(roundTrip.get(size - 1) + " " + roundTrip.get(0));
         distance += matrix.get(roundTrip.get(size - 1)).get(roundTrip.get(0));
         return distance;
+    }
+
+    public static void makeCitiedUnvisited(ArrayList<City> cities)
+    {
+        for(int i = 0 ; i < cities.size() ; i++)
+        {
+            cities.get(i).visited = false;
+            cities.get(i).paths = 0;
+        }
     }
 
 

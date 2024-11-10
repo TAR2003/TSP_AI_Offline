@@ -14,6 +14,7 @@ public class City {
     }
 
     public int id;
+    public int paths;
     public int x,y;
     public boolean visited;
     public City(int id, int x, int y)
@@ -22,6 +23,7 @@ public class City {
         this.x = x;
         this.y = y;
         this.visited = false;
+        paths = 0;
     }
 
     @Override

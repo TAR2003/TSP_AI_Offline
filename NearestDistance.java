@@ -11,6 +11,7 @@ public class NearestDistance {
     }
     public ArrayList<Integer> getNearestNeighbour() {
         int size = cities.size();
+        Main.makeCitiedUnvisited(cities);
         ArrayList<Integer> roundTrip = new ArrayList<>(size);
         roundTrip.add(0);
         cities.get(0).visited = true;
@@ -34,6 +35,7 @@ public class NearestDistance {
 
 
         }
+        Main.makeCitiedUnvisited(cities);
         return roundTrip;
     }
 
