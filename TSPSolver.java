@@ -10,9 +10,25 @@ public class TSPSolver {
         cities = tspBuilder.getCities();
 
     }
+    private void initAllCities()
+    {
+        for(City city:cities)
+        {
+            city.visited = false;
+        }
+    }
     public void processTSP()
     {
 
+        NearestNeighbour nearestNeighbour = new NearestNeighbour(cities);
+        nearestNeighbour.findMinimumPath();
+        ArrayList<City> path = nearestNeighbour.path;
+        for(City city : path)
+        {
+            System.out.print(city.id + " ");
+        }
+        System.out.println();
+        System.out.println("Total cost: " + nearestNeighbour.cost);
     }
 
 }

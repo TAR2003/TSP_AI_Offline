@@ -13,6 +13,7 @@ public class Main {
                 for (String filename : files) {
                     System.out.println("Now Processing inputs from file: " + filename);
                     TSPSolver tspSolver = new TSPSolver(new File(folder, filename));
+                    tspSolver.processTSP();
                     System.out.println("Ended processing inputs from file: " + filename);
                 }
 
