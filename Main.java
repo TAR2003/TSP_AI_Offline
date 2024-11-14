@@ -1,115 +1,27 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Main {
+    public static String reportFile = "report_data.txt";
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("rat19.tsp"));
-        ArrayList<City> cities = new ArrayList<>(10);
-        boolean startcommand = false;
-        int total = 0;
-        int size = 0;
-        while (true) {
-            String str = br.readLine();
-            if (str == null) break;
-            String[] strings1 = str.split(" ");
-            if (strings1[0].equalsIgnoreCase("DIMENSION")) {
+        String folderPath = "./test";
+        File folder = new File(folderPath);
+        if (folder.exists() && folder.isDirectory()) {
+            String[] files = folder.list();
+            if (files != null) {
+                for (String filename : files) {
+                    System.out.println("Now Processing inputs from file: " + filename);
+                    TSPSolver tspSolver = new TSPSolver(new File(folder, filename));
+                    System.out.println("Ended processing inputs from file: " + filename);
+                }
 
-                size = Integer.parseInt(strings1[2]);
-                // System.out.println("The size = " + size);
+            } else {
+                System.out.println("This folder is empty");
             }
-            //System.out.println(str);
-            if (startcommand) {
-
-                String[] strings = str.split(" ");
-                int pos = 0;
-                while (strings[pos].length() == 0) {
-                    pos++;
-                }
-
-                int cityid = Integer.parseInt(strings[pos++]);
-                while (strings[pos].length() == 0) {
-                    pos++;
-                }
-                int x = Integer.parseInt(strings[pos++]);
-                while (strings[pos].length() == 0) {
-                    pos++;
-                }
-                int y = Integer.parseInt(strings[pos]);
-                City city = new City(cityid, x, y);
-                cities.add(city);
-                total++;
-                if (total >= size) {
-                    break;
-                }
-
-            }
-            if (str.equalsIgnoreCase("NODE_COORD_SECTION")) {
-                startcommand = true;
-            }
-
+        } else {
+            System.out.println("No such directory exits here");
         }
-        br.close();
-        System.out.println(cities.size());
-        /*
-        for (int i = 0; i < cities.size(); i++) {
-            System.out.println(cities.get(i));
-        }
-        */
-        System.out.println("DOne");
         System.out.println("Process finished successfully");
-        // Now we are going to calculate the distances between cities
-        ArrayList<ArrayList<Integer>> matrix = new ArrayList<>(1);
-        for (int i = 0; i < size; i++) {
-            ArrayList<Integer> tempList = new ArrayList<>(1);
-            for (int j = 0; j < size; j++) {
-                tempList.add(cities.get(i).findDistance(cities.get(j)));
-            }
-            matrix.add(tempList);
-        }
-        NearestDistance nearestDistance = new NearestDistance(cities, matrix);
-
-        ArrayList<Integer> roundTrip = nearestDistance.getNearestNeighbour();
-        for (int i = 0; i < size; i++) {
-            System.out.print(roundTrip.get(i) + " ");
-        }
-        System.out.println();
-        System.out.println(countCost(cities, matrix, roundTrip));
-//        for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < size; j++) {
-//                System.out.print(matrix.get(i).get(j) + " ");
-//            }
-//            System.out.println();
-//
-//        }
-        TSPwithShortEdgesFirst tsPwithShortEdgesFirst = new TSPwithShortEdgesFirst(cities, matrix);
-        tsPwithShortEdgesFirst.getNearestNeighbour();
-        // it is the matrix where we will store all of the distances
-
-
     }
-
-    public static int countCost(ArrayList<City> cities, ArrayList<ArrayList<Integer>> matrix, ArrayList<Integer> roundTrip) {
-        int distance = 0;
-        int size = matrix.size();
-        for (int i = 0; i < size - 1; i++) {
-            distance += matrix.get(roundTrip.get(i)).get(roundTrip.get(i+1));
-            System.out.println("Distance in " + i + " =  " + distance);
-        }
-        distance += matrix.get(roundTrip.get(size - 1)).get(roundTrip.get(0));
-        return distance;
-    }
-
-    public static void makeCitiedUnvisited(ArrayList<City> cities)
-    {
-        for(int i = 0 ; i < cities.size() ; i++)
-        {
-            cities.get(i).visited = false;
-            cities.get(i).paths = 0;
-        }
-    }
-
-
 }

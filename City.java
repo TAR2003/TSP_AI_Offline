@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import static java.lang.Math.abs;
 
 public class City {
@@ -5,25 +7,24 @@ public class City {
         return id;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
     public int id;
-    public int paths;
-    public int x,y;
+    public float x;
+    public float y;
     public boolean visited;
-    public City(int id, int x, int y)
+    public City(int id, float x, float y)
     {
         this.id = id;
         this.x = x;
         this.y = y;
         this.visited = false;
-        paths = 0;
     }
 
     @Override
@@ -39,13 +40,14 @@ public class City {
         return str;
     }
 
-    public int findDistance(City city)
+    public float findDistance(City city)
     {
-        int distance = 0;
-        distance += abs(this.x - city.x);
+        float distance = 0;
+        distance +=abs(this.x - city.x);
         distance += abs(this.y - city.y);
         return distance;
     }
+
 
 
 
