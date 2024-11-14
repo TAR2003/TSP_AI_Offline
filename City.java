@@ -32,19 +32,15 @@ public class City {
     {
         String str = "";
         str += id;
-        str += " ";
-        str += x;
-        str +=  ' ';
-        str += y;
-        str += '\n';
         return str;
     }
 
     public float findDistance(City city)
     {
         float distance = 0;
-        distance +=abs(this.x - city.x);
-        distance += abs(this.y - city.y);
+        distance += (float) Math.pow(abs(this.x - city.x), 2);
+        distance += (float) Math.pow(abs(this.y - city.y), 2);
+        distance = (float) Math.sqrt(distance);
         return distance;
     }
 

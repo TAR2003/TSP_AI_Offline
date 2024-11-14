@@ -1,14 +1,12 @@
 import java.util.ArrayList;
 
-public class NearestNeighbour {
-    public ArrayList<City> cities;
-    float cost = 0;
-    ArrayList<City> path = new ArrayList<>(1);
+public class NearestNeighbour extends SolverAlgorithm{
 
     public NearestNeighbour(ArrayList<City> cities) {
-        this.cities = cities;
+        super(cities);
     }
 
+    /// find the minimum cost path with Nearest neighbour algorithm
     public void findMinimumPath() {
         System.out.println("Starting the nearest neaighbour algorithm");
         path.add(cities.get(0));
@@ -20,12 +18,12 @@ public class NearestNeighbour {
             City bestPick = findNearestCity(lastNode);
             bestPick.visited = true;
             path.add(path.size() - 1, bestPick);
-            System.out.println("Current size " + path.size());
+            //System.out.println("Current size " + path.size());
             cost -= lastNode.findDistance(cities.get(0));
             cost += lastNode.findDistance(bestPick) + bestPick.findDistance(cities.get(0));
         }
     }
-
+    /// find the nearest unvisited city from the city "from"
     private City findNearestCity(City from) {
         float smallestCost = Integer.MAX_VALUE;
         City bestPick = null;
@@ -34,7 +32,7 @@ public class NearestNeighbour {
 
             if (!to.visited) {
                 float distance = from.findDistance(to);
-                System.out.println("From " + from.id + "  to = " + to.id + " : distance= " + distance);
+                //System.out.println("From " + from.id + "  to = " + to.id + " : distance= " + distance);
                 if (distance < smallestCost) {
                     smallestCost = distance;
                     bestPick = to;
@@ -46,7 +44,4 @@ public class NearestNeighbour {
         return bestPick;
     }
 
-    private int findBestIndex(City city) {
-        return 0;
-    }
 }
