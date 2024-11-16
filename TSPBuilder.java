@@ -39,6 +39,7 @@ public class TSPBuilder {
         }
         br.close();
         System.out.println(cities.size());
+        Main.bw.write(size + ", ");
         return cities;
 
 

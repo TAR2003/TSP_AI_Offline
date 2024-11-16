@@ -8,38 +8,29 @@ public class NodeShift extends PerturbativeAlgorithm {
 
     /// this function will improve the path with node shifting
     public void improveResult() {
-        System.out.println("Starting algo " + improvedPath.toString());
+        System.out.println("Starting algo ");
         for (int i = 1; i < improvedPath.size() - 1; i++) {
             for (int j = 1; j < improvedPath.size() - 1; j++) {
-                float tempcost = findShiftCost(i, j);
-                if (tempcost < cost) {
-                    City city = improvedPath.get(i);
+                findShift(i, j);
 
-                    improvedPath.remove(i);
-                    if (i < j) {
-                        improvedPath.add(j - 1, city);
-                    } else {
-                        improvedPath.add(j, city);
-                    }
-                    cost = tempcost;
-                }
             }
         }
     }
 
-    private float findShiftCost(int pos1, int pos2) {
-        if (pos1 == pos2) return cost;
-        float tempcost = cost;
-        tempcost -= improvedPath.get(pos1).findDistance(improvedPath.get(pos1 - 1));
-        tempcost -= improvedPath.get(pos1).findDistance(improvedPath.get(pos1 + 1));
-        tempcost -= improvedPath.get(pos2).findDistance(improvedPath.get(pos2 - 1));
-        tempcost += improvedPath.get(pos1 - 1).findDistance(improvedPath.get(pos1 + 1));
-        tempcost += improvedPath.get(pos2).findDistance(improvedPath.get(pos1));
-        if (pos2 - 1 == pos1) {
-            tempcost += improvedPath.get(pos2).findDistance(improvedPath.get(pos1));
-        } else {
-            tempcost += improvedPath.get(pos2 - 1).findDistance(improvedPath.get(pos1));
+    private void findShift(int pos1, int pos2) {
+        if (pos1 == pos2) return;
+        City city = improvedPath.get(pos1);
+        improvedPath.remove(pos1);
+        improvedPath.add(pos2, city);
+        float tempcost = findTotalDistance();
+        if(tempcost < cost)
+        {
+            cost = tempcost;
         }
-        return tempcost;
+        else {
+            improvedPath.remove(pos2);
+            improvedPath.add(pos1, city);
+        }
+
     }
 }
