@@ -10,9 +10,9 @@ public class TwoOpt extends PerturbativeAlgorithm{
     public void improveResult()
     {
         System.out.println("Starting algorithm for Two-opt");
-        for(int i = 1 ; i < path.size() - 2 ; i++)
+        for(int i = 1 ; i < path.size() ; i++)
         {
-            for(int j = i+1 ; j < path.size() - 1 ; j++)
+            for(int j = i+1 ; j < path.size() ; j++)
             {
                 applyTwoOpt(i,j);
             }
@@ -21,15 +21,15 @@ public class TwoOpt extends PerturbativeAlgorithm{
 
     private void applyTwoOpt(int i , int j)
     {
-        int start = Integer.min(i,j);
-        int end = Integer.max(i,j);
-        if(i == j) return;
-        float distance = improvedPath.get(start).findDistance(improvedPath.get(end)) + improvedPath.get(start+1).findDistance(improvedPath.get(end+1))
-                - improvedPath.get(start).findDistance(improvedPath.get(start+1)) - improvedPath.get(end).findDistance(improvedPath.get(end+1));
-        if(distance < 0) {
-
-            Collections.reverse(improvedPath.subList(start+1, end+1));
-            cost = findTotalDistance();
+        Collections.reverse(improvedPath.subList(i+1,j));
+        float tempcost = findTotalDistance();
+        if(tempcost < cost)
+        {
+            cost = tempcost;
+        }
+        else
+        {
+            Collections.reverse(improvedPath.subList(i+1, j));
         }
 
     }
